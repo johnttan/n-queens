@@ -4,6 +4,7 @@ var solve = function(n){
   var subR = function(leftDiag, cols, rightDiag){
     if(cols === all){
       count += 1;
+      return;
     }
     var poss = ~(leftDiag | cols | rightDiag) & all;
     while(poss > 0){
