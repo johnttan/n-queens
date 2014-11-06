@@ -77,5 +77,33 @@ describe('solvers', function() {
     });
 
   });
+  describe('bitwise countNQueensSolutions()', function() {
+
+    it('finds the number of valid solutions for n of 0-12', function() {
+      _.range(0, 13).map(function(n) {
+        var solutionCount = solveBitwise(n);
+        var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, 73712, 365596][n];
+
+        expect(solutionCount).to.be.equal(expectedSolutionCount);
+      });
+    });
+
+  });
+
+  describe('parallel bitwise countNQueensSolutions()', function() {
+
+    it('finds the number of valid solutions for n of 0-12', function() {
+      _.range(0, 13).map(function(n) {
+        doneWork = 0;
+        var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, 73712, 365596][n];
+        var cb = function(total){
+          console.log(total);
+          expect(total).to.be.equal(expectedSolutionCount);
+        };
+        var solutionCount = solveParallel(n, cb);
+      });
+    });
+
+  });
 
 });

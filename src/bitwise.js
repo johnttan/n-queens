@@ -1,4 +1,4 @@
-var solve = function(n){
+var solveBitwise = function(n){
   var all = Math.pow(2, n) - 1;
   var count = 0;
   var subR = function(leftDiag, cols, rightDiag){
@@ -13,8 +13,8 @@ var solve = function(n){
       subR((leftDiag | bit) << 1, cols | bit, (rightDiag | bit) >> 1);
     }
   }
-  console.time('NQUEENS');
+  console.time('bitwise');
   subR(0, 0, 0)
-  console.timeEnd('NQUEENS');
+  console.timeEnd('bitwise');
   return count;
 }
