@@ -19,7 +19,7 @@ window.findNRooksSolution = function(n) {
     solution[i] = [];
     solution[i][i] = 1;
   }
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
 
@@ -49,7 +49,7 @@ window.countNRooksSolutions = function(n) {
     return;
   }
   recurse(0, {});
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  // console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
@@ -58,19 +58,37 @@ window.countNRooksSolutions = function(n) {
 window.findNQueensSolution = function(n) {
   var solution = []; //fixme
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+  // console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
+  if(n===0){return 1}
   var solutionCount = 0;
-
+  var valid = function(rowInd, i, valids){
+    return !valids.major[i-rowInd] && !valids.minor[i+rowInd] && !valids.col[i];
+  };
   var recurse = function(rowInd, valids){
-
-  }
-
+    var originalV = valids;
+    for(var i=0;i<n;i++){
+      var isValid = valid(rowInd, i, valids);
+      var valids = JSON.parse(JSON.stringify(originalV));
+      if(isValid){
+        valids.col[i] = true;
+        valids.major[i-rowInd] = true;
+        valids.minor[i+rowInd] = true;
+        if(rowInd+1 < n){
+          recurse(rowInd+1, JSON.parse(JSON.stringify(valids)));
+        }else{
+          console.log('solved')
+          solutionCount += 1;
+        }
+      }
+    }
+  };
+  recurse(0, {major:{}, minor:{}, col:{}});
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
