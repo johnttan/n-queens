@@ -56,10 +56,51 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = []; //fixme
+  if(n===0){return []}
+  var solutionCount = 0;
+  var solutions = [];
+  var valid = function(rowInd, i, valids){
+    return !valids.major[i-rowInd] && !valids.minor[i+rowInd] && !valids.col[i];
+  };
+  var recurse = function(rowInd, valids, result){
+    var originalV = valids;
+    var originalResult = result;
+    for(var i=0;i<n;i++){
+      result = JSON.parse(JSON.stringify(originalResult));
+      var isValid = valid(rowInd, i, valids);
+      if(isValid){
+        valids = JSON.parse(JSON.stringify(originalV));
 
-  // console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+        valids.col[i] = true;
+        valids.major[i-rowInd] = true;
+        valids.minor[i+rowInd] = true;
+
+        result[rowInd] = [];
+        result[rowInd][i] = 1;
+        if(rowInd+1 < n){
+          recurse(rowInd+1, JSON.parse(JSON.stringify(valids)), JSON.parse(JSON.stringify(result)));
+        }else{
+          solutionCount += 1;
+          solutions.push(result);
+        }
+      }
+    }
+  };
+  recurse(0, {major:{}, minor:{}, col:{}}, []);
+  var returnSol = solutions[0];
+  if(returnSol){
+    _.each(returnSol, function(el){
+      for(var i=0;i<n;i++){
+        if(el[i] !== 1){
+          el[i] = 0;
+        }      
+      }
+    })
+    return returnSol;
+  }else{
+    var temp = new Board({n:n});
+    return temp.rows();
+  }
 };
 
 
@@ -74,15 +115,14 @@ window.countNQueensSolutions = function(n) {
     var originalV = valids;
     for(var i=0;i<n;i++){
       var isValid = valid(rowInd, i, valids);
-      var valids = JSON.parse(JSON.stringify(originalV));
       if(isValid){
+        valids = JSON.parse(JSON.stringify(originalV));
         valids.col[i] = true;
         valids.major[i-rowInd] = true;
         valids.minor[i+rowInd] = true;
         if(rowInd+1 < n){
           recurse(rowInd+1, JSON.parse(JSON.stringify(valids)));
         }else{
-          console.log('solved')
           solutionCount += 1;
         }
       }
