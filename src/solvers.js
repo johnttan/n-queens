@@ -14,8 +14,11 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
-
+  var solution = [];
+  for(var i=0;i<n;i++){
+    solution[i] = [];
+    solution[i][i] = 1;
+  }
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
@@ -23,18 +26,52 @@ window.findNRooksSolution = function(n) {
 
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
-window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
 
+/*************** Slow solution *********************/
+window.countNRooksSolutions = function(n) {
+  var solutionCount = 0; //fixme
+  var board = new Board({'n':n});
+  var boardRep = board.rows();
+
+  var recurse = function(rowInd, rookCols){
+    for(var i = 0;i < n;i++){
+      if(!rookCols[i]){
+        boardRep[rowInd][i] = 1;
+
+        var conflict = !!board.hasRowConflictAt(rowInd);
+        if(!conflict){
+          if(rowInd < n-1){
+            var rooks = JSON.parse(JSON.stringify(rookCols));
+            rooks[i] = true;
+            recurse(rowInd + 1, rooks);
+            boardRep[rowInd][i] = 0;
+          }else{
+            solutionCount += 1;
+            boardRep[rowInd][i] = 0;
+            return;
+          }
+        }else{
+          boardRep[rowInd][i] = 0;
+        }
+      }
+
+
+    }
+    return;
+  }
+  recurse(0, {});
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
 
-
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = []; //fixme
+  var rowI, colI;
+  if(n % 2 === 0){
+    rowI;
+  }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
