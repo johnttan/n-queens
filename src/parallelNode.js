@@ -1,3 +1,4 @@
+var Parallel = require('paralleljs');
 var doneWork = 0;
 var start = new Date();
 // var cb = function(total){
@@ -16,8 +17,10 @@ var solveParallel = function(n, cb){
     while(poss > 0){
       var bit = poss & -poss;
       poss -= bit;
-      var newWork = new Parallel([(leftDiag | bit) << 1, cols | bit, (rightDiag | bit) >> 1, n], {env:{count:0}, maxWorkers: 4});
+      var newWork = new Parallel([(leftDiag | bit) << 1, cols | bit, (rightDiag | bit) >> 1, n, 0], {env:{count:0}, maxWorkers: 4});
       newWork.spawn(function(data){
+        global.env = {};
+        global.env.count = data[4];
         var all = Math.pow(2, data[3]) - 1;
         var leftDiag = data[0];
         var cols = data[1];
@@ -42,7 +45,6 @@ var solveParallel = function(n, cb){
         doneWork += 1;
         if(doneWork === n){
           console.timeEnd('PARALLEL');
-          console.log(TOTALCOUNT);
           cb(TOTALCOUNT);
         }
       });
@@ -53,4 +55,6 @@ var solveParallel = function(n, cb){
 };
 
 
-// solveParallel(17);
+solveParallel(4, function(total){
+  console.log(total);
+});
