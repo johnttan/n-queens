@@ -37,9 +37,6 @@ window.countNRooksSolutions = function(n) {
     for(var i = 0;i < n;i++){
       if(!rookCols[i]){
         boardRep[rowInd][i] = 1;
-
-        var conflict = !!board.hasRowConflictAt(rowInd);
-        if(!conflict){
           if(rowInd < n-1){
             var rooks = JSON.parse(JSON.stringify(rookCols));
             rooks[i] = true;
@@ -53,9 +50,6 @@ window.countNRooksSolutions = function(n) {
         }else{
           boardRep[rowInd][i] = 0;
         }
-      }
-
-
     }
     return;
   }
