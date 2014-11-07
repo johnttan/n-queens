@@ -31,7 +31,7 @@ var generateProblems = function(n, depth){
   return problemStack;
 };
 
-var n = 18;
+var n = 5;
 var problems = generateProblems(n, 0);
 console.log(problems.length, 'num of Subproblems');
 app.get('/', function(req, res) {
@@ -42,6 +42,7 @@ app.get('/data', function(req, res){
   if(problems.length > 0){
     var problem = problems.shift();
     console.log('sending', problem)
+    // problem = [4, 0, 0, 0];
     res.send(problem);
   }
   else{
@@ -52,7 +53,7 @@ app.get('/data', function(req, res){
 var solved = 0;
 
 app.post('/solution', function(req, res) {
-  console.log(req.body);
+  console.log('server received',req.body.solution);
   solved += parseInt(req.body.solution);
   res.send(200);
 });
