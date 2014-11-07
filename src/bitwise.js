@@ -12,9 +12,9 @@ var solveBitwise = function(n){
       poss -= bit;
       subR((leftDiag | bit) << 1, cols | bit, (rightDiag | bit) >> 1);
     }
-  }
+  };
   console.time('bitwise');
-  subR(0, 0, 0)
+  subR(0, 0, 0);
   console.timeEnd('bitwise');
   return count;
-}
+};

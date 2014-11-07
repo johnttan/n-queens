@@ -6,7 +6,6 @@ var start = new Date();
 //   console.log('callback got it', total);
 //   console.log('finished in', end - start);
 // };
-
 var solveParallel = function(n, cb){
   console.log('starting');
   console.time('PARALLEL');
@@ -55,6 +54,6 @@ var solveParallel = function(n, cb){
 };
 
 
-solveParallel(4, function(total){
+solveParallel(15, function(total){
   console.log(total);
 });
