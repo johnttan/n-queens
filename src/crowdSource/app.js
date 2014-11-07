@@ -31,8 +31,8 @@ var generateProblems = function(n, depth){
   return problemStack;
 };
 
-var n = 5;
-var problems = generateProblems(n, 0);
+var n = 19;
+var problems = generateProblems(n, 2);
 console.log(problems.length, 'num of Subproblems');
 app.get('/', function(req, res) {
   res.render('index');
