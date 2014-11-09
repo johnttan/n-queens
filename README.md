@@ -1,2 +1,10 @@
 #n-queens
-This is a project I completed as a student at [Hack Reactor](http://hackreactor.com). This project was worked on with a pair.
+A variety of implementations of the count N-queens problem.
+
+1. Backtracking tree pruning algorithm.
+
+2. Bitwise single-threaded.
+
+3. Bitwise parallel web workers.
+
+4. Distributed bitwise parallel.
